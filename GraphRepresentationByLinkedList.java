@@ -4,42 +4,49 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GraphRepresentationByLinkedList {
-	int i = 0;
-	int totalNodes;
+	private int totalNodes;
+	private int mode;
 	
-	IntegerLinkedList[] arrayOfLinkedLists = new IntegerLinkedList[this.insertNodes()];
+	ArrayList<IntegerLinkedList> arrayOfLinkedLists = new ArrayList<>();
 	
-	int insertNodes() {
-		IntegerInput nodes = new IntegerInput();
-		System.out.println("Insert the number of the graph's nodes!");
-		nodes.setNumber();
-		this.totalNodes = nodes.getNumber();
-		return this.totalNodes;
-	
+	public GraphRepresentationByLinkedList(int mode) {
+		this.mode = mode;
 	}
 	
 	void populating() {
-		
-		for(int i = 0; i < arrayOfLinkedLists.length; i++) {
-			System.out.print("Node " + (i + 1) + ", ");
-			arrayOfLinkedLists[i] = new IntegerLinkedList(0);
-			arrayOfLinkedLists[i].populating();
+		if(this.mode == 0) {
+			System.out.println("Insert the number of nodes!");
+			
+			IntegerInput nodes = new IntegerInput();
+			nodes.setNumber();
+			
+			this.totalNodes = nodes.getNumber();
+			
+			for(int i = 0; i < this.totalNodes; i++) {
+				System.out.print("Node " + (i + 1) + ", ");
+				
+				arrayOfLinkedLists.add(new IntegerLinkedList(0));
+				arrayOfLinkedLists.get(i).populating();
+			}
 		}
+		
 	}
 	
-	void setArrayOfLinkedList(IntegerLinkedList list) {
-		arrayOfLinkedLists[this.i] = new IntegerLinkedList(1);
-		arrayOfLinkedLists[this.i].copyIntireList(list);
-		
-		this.i++;	
+	void setLinkedList(IntegerLinkedList list, int index) {
+		arrayOfLinkedLists.set(index, list);
+	}
+	
+	void addLinkedList(IntegerLinkedList list) {
+		arrayOfLinkedLists.add(list);
+		this.totalNodes++;
 	}
 	
 	ArrayList<LinkedList<Integer>> getArrayOfLinkedList() {
 		ArrayList<LinkedList<Integer>> array = new ArrayList<LinkedList<Integer>>();
 		
-		for(int i = 0; i < arrayOfLinkedLists.length; i++) {
+		for(int i = 0; i < arrayOfLinkedLists.size(); i++) {
 			IntegerLinkedList linkedListObj = new IntegerLinkedList(1);
-			linkedListObj.copyIntireList(arrayOfLinkedLists[i]);
+			linkedListObj.copyIntireList(arrayOfLinkedLists.get(i));
 			LinkedList<Integer> list = linkedListObj.getLinkedList();
 			
 			array.add(i, list);
@@ -61,6 +68,10 @@ public class GraphRepresentationByLinkedList {
 		System.out.println("]");
 	}
 	
+	public int getTotalNodes() {
+		return this.totalNodes;
+	}
+	
 	
 	@Override
 	public boolean equals(Object array) {
@@ -79,9 +90,9 @@ public class GraphRepresentationByLinkedList {
 		
 		GraphRepresentationByLinkedList otherArray = (GraphRepresentationByLinkedList) array;
 		
-		for(int i = 0; i < arrayOfLinkedLists.length; i++) {			
-			thisArrayElements.copyIntireList(this.arrayOfLinkedLists[i]);			
-			otherArrayElements.copyIntireList(otherArray.arrayOfLinkedLists[i]);
+		for(int i = 0; i < arrayOfLinkedLists.size(); i++) {			
+			thisArrayElements.copyIntireList(this.arrayOfLinkedLists.get(i));			
+			otherArrayElements.copyIntireList(otherArray.arrayOfLinkedLists.get(i));
 			
 			if(!(thisArrayElements.equals(otherArrayElements))) {
 				flag = false;

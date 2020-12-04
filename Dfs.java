@@ -1,26 +1,43 @@
 package computationalRepresentation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DFS {
-	GraphRepresentationByLinkedList graph = new GraphRepresentationByLinkedList();
-	ArrayList<Integer> pi;
-	ArrayList<Integer> discoveryTime;
-	ArrayList<Integer> finalizationTime;
-	ArrayList<String> color;
-	int time = 1;
+	private GraphRepresentationByLinkedList graph;
+	private List<Integer> pi;
+	private List<Integer> discoveryTime;
+	private List<Integer> finalizationTime;
+	private List<String> color;
+	private int time = 1;
+	private List<Integer> ascendingDiscoveryTime;
+	private List<Integer> topologicalSort;
 	
-	public DFS() {
-		this.graph.populating();
-		this.graph.show();
+	public DFS(GraphRepresentationByLinkedList graph) {
+		this.graph = new GraphRepresentationByLinkedList(1);
+		this.graph = graph;
+		
+		this.topologicalSort = new ArrayList<>();
+		this.ascendingDiscoveryTime = new ArrayList<>();
+		this.discoveryTime = new ArrayList<Integer>(this.graph.getTotalNodes());
+		this.finalizationTime = new ArrayList<Integer>(this.graph.getTotalNodes());
+		this.color = new ArrayList<String>(this.graph.getTotalNodes());
+		this.pi = new ArrayList<Integer>(this.graph.getTotalNodes());
+		
+		for(int i = 0; i < this.graph.getTotalNodes(); i++) {
+			this.discoveryTime.add(0);
+			this.finalizationTime.add(0);
+			this.color.add("white");
+			this.pi.add(0);
+		}	
+		
 	}
 	
 	public void dfsGraph() {
-		this.initialization();
-		
-		for(int i = 0; i < graph.totalNodes; i++) {
+				
+		for(int i = 0; i < this.graph.getTotalNodes(); i++) {
 			if (this.color.get(i) == "white") {
-				dfsVisit(this.graph.arrayOfLinkedLists[i], i);
+				dfsVisit(this.graph.arrayOfLinkedLists.get(i), i);
 			} 
 		}
 	}
@@ -36,7 +53,7 @@ public class DFS {
 			
 ;			if(this.color.get(adjVertexPosition) == "white") {
 				this.pi.set(adjVertexPosition, list.linkedList.get(0));
-				this.dfsVisit(this.graph.arrayOfLinkedLists[adjVertexPosition], adjVertexPosition);
+				this.dfsVisit(this.graph.arrayOfLinkedLists.get(adjVertexPosition), adjVertexPosition);
 			}
 		}
 		
@@ -45,65 +62,12 @@ public class DFS {
 		this.time++;
 	}
 		
-	private void initialization(){
-		this.discoveryTime = new ArrayList<Integer>(graph.totalNodes);
-		this.finalizationTime = new ArrayList<Integer>(graph.totalNodes);
-		this.color = new ArrayList<String>(graph.totalNodes);
-		this.pi = new ArrayList<Integer>(graph.totalNodes);
 		
-		for(int i = 0; i < graph.totalNodes; i++) {
-			this.discoveryTime.add(i, 0);
-			this.finalizationTime.add(i, 0);
-			this.color.add(i, "white");
-			this.pi.add(i, 0);
-		}
-		
-	}
-	
-	public void show() {
-		int minorTime = 1;
-		int count = 0;
-		int[] ascendingDiscoveryTime = new int[this.graph.totalNodes];
-		
-		for(int i = 0; i < this.graph.totalNodes; i++) {
-			if(this.discoveryTime.get(i) == minorTime) {
-				ascendingDiscoveryTime[count] = this.graph.arrayOfLinkedLists[i].linkedList.get(0);
-				minorTime++;
-				i = 0;
-			}
-		}
-		
-		System.out.println("The nodes discovery time in ascending order is: ");
-		
-		for(int i : ascendingDiscoveryTime) {
-			System.out.print(i);
-		}
-		
-		System.out.println();
-		
-		ArrayList<Integer> decreasingFinalizationTime = this.finalizationTime;
-		
-		for(int i = 1; i < decreasingFinalizationTime.size(); i++) {
-			int max = decreasingFinalizationTime.get(0);
-			
-			if(decreasingFinalizationTime.get(i) > max) {
-				max = decreasingFinalizationTime.get(i);
-				int temp = decreasingFinalizationTime.get(i);
-				decreasingFinalizationTime.add(i, decreasingFinalizationTime.get(i -1));
-				decreasingFinalizationTime.add(i - 1, temp);
-			}
-		}
-		
-		System.out.println("The topological sort using decreasing is:");
-		System.out.print(decreasingFinalizationTime);
-		
-	}
-	
 	public int position(int vertex) {
 		int position = 0;
 		
-		for(int i = 0; i < this.graph.totalNodes; i++) {
-			int firstLinkedListElement = this.graph.arrayOfLinkedLists[i].linkedList.get(0);
+		for(int i = 0; i < this.graph.getTotalNodes(); i++) {
+			int firstLinkedListElement = this.graph.arrayOfLinkedLists.get(i).linkedList.get(0);
 			
 			if(firstLinkedListElement == vertex) {
 				position = i;
@@ -114,12 +78,43 @@ public class DFS {
 		return position;
 	}
 	
-	public void showArrays() {
-		System.out.println("The discovery time array is: " + this.discoveryTime);
-		System.out.println("The finalization time array is: " + this.finalizationTime);
-		System.out.println("The color array is: " + this.color);
-		System.out.println("The pi array is: " + this.pi);
+	public List<Integer> getAscendingDiscoveryTime(){
+		int minTime = 1;
+		
+		while(ascendingDiscoveryTime.size() != this.discoveryTime.size()) {
+						
+			for(int i = 0; i < discoveryTime.size(); i++) {
+				if(minTime == discoveryTime.get(i)) {
+					ascendingDiscoveryTime.add(this.graph.arrayOfLinkedLists.get(i).linkedList.get(0));
+				}
+			}
+			
+			minTime++;
+		}
+		
+		return this.ascendingDiscoveryTime;
+	}
+	
+	public List<Integer> getTopologicalSort(){
+		int maxTime = this.graph.getTotalNodes() * 2;
+		
+		while(topologicalSort.size() != this.finalizationTime.size()) {
+			for(int i = 0; i < this.finalizationTime.size(); i++) {
+				if(this.finalizationTime.get(i) == maxTime) {
+					topologicalSort.add(this.graph.arrayOfLinkedLists.get(i).linkedList.get(0));
+				}
+			}
+			
+			maxTime--;
+		}
+		
+		return this.topologicalSort;
 	}
 
+	public List<String> getColor() {
+		return color;
+	}
+	
+	
 }
 

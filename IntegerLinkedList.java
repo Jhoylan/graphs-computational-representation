@@ -42,9 +42,13 @@ public class IntegerLinkedList {
 		return linkedList;
 	}
 	
-	void setLinkedListElement(int number) {
-		linkedList.addLast(number);
+	void addLinkedListElement(int number) {
+		linkedList.add(number);
 		this.size++;
+	}
+	
+	void setLinkedListElement(int number, int index) {
+		linkedList.set(index, number);
 	}
 	
 	void copyIntireList(IntegerLinkedList list) {

@@ -15,9 +15,9 @@ class IntegerLinkedListTest {
 		
 		
 		IntegerLinkedList test = new IntegerLinkedList(1);
-		test.setLinkedListElement(5);
-		test.setLinkedListElement(5);
-		test.setLinkedListElement(5);
+		test.addLinkedListElement(5);
+		test.addLinkedListElement(5);
+		test.addLinkedListElement(5);
 		
 		
 		boolean verification = linkedList.equals(test);
@@ -29,9 +29,9 @@ class IntegerLinkedListTest {
 	@Test
 	void copyIntireListTest() {
 		IntegerLinkedList test = new IntegerLinkedList(1);
-		test.setLinkedListElement(5);
-		test.setLinkedListElement(5);
-		test.setLinkedListElement(5);
+		test.addLinkedListElement(5);
+		test.addLinkedListElement(5);
+		test.addLinkedListElement(5);
 		
 		IntegerLinkedList linkedList = new IntegerLinkedList(1);
 		linkedList.copyIntireList(test);
@@ -45,16 +45,16 @@ class IntegerLinkedListTest {
 	@Test
 	void deletingFirstOccurencyTest() {
 		IntegerLinkedList linkedList = new IntegerLinkedList(1);
-		linkedList.setLinkedListElement(5);
-		linkedList.setLinkedListElement(3);
-		linkedList.setLinkedListElement(3);
-		linkedList.setLinkedListElement(1);
+		linkedList.addLinkedListElement(5);
+		linkedList.addLinkedListElement(3);
+		linkedList.addLinkedListElement(3);
+		linkedList.addLinkedListElement(1);
 		linkedList.deleteFirstOccurece(3);
 		
 		IntegerLinkedList test = new IntegerLinkedList(1);
-		test.setLinkedListElement(5);
-		test.setLinkedListElement(3);
-		test.setLinkedListElement(1);
+		test.addLinkedListElement(5);
+		test.addLinkedListElement(3);
+		test.addLinkedListElement(1);
 		
 		boolean verification = test.equals(linkedList);
 		
@@ -64,16 +64,16 @@ class IntegerLinkedListTest {
 	@Test
 	void deletingIndexedElementTest() {
 		IntegerLinkedList linkedList = new IntegerLinkedList(1);
-		linkedList.setLinkedListElement(5);
-		linkedList.setLinkedListElement(3);
-		linkedList.setLinkedListElement(3);
-		linkedList.setLinkedListElement(1);
+		linkedList.addLinkedListElement(5);
+		linkedList.addLinkedListElement(3);
+		linkedList.addLinkedListElement(3);
+		linkedList.addLinkedListElement(1);
 		linkedList.deleteIndexedElement(0);
 		
 		IntegerLinkedList test = new IntegerLinkedList(1);
-		test.setLinkedListElement(3);
-		test.setLinkedListElement(3);
-		test.setLinkedListElement(1);
+		test.addLinkedListElement(3);
+		test.addLinkedListElement(3);
+		test.addLinkedListElement(1);
 		
 		boolean verification = test.equals(linkedList);
 		
