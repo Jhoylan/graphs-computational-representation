@@ -2,7 +2,7 @@ package computationalRepresentation;
 
 import java.util.ArrayList;
 
-public class Dfs {
+public class DFS {
 	GraphRepresentationByLinkedList graph = new GraphRepresentationByLinkedList();
 	ArrayList<Integer> pi;
 	ArrayList<Integer> discoveryTime;
@@ -10,8 +10,7 @@ public class Dfs {
 	ArrayList<String> color;
 	int time = 1;
 	
-	//0 for linked list  
-	public Dfs() {
+	public DFS() {
 		this.graph.populating();
 		this.graph.show();
 	}
@@ -30,27 +29,18 @@ public class Dfs {
 		this.color.set(node, "gray");
 		this.discoveryTime.set(node, this.time);
 		this.time++;
-		int vertexPosition = 0;
-		
-		for(int i = 1; i < list.size; i++){		
-			int adjacentVertex = list.linkedList.get(i);
-						
-			for(int j = 0; j < graph.totalNodes; j++) {
-				int vertex = this.graph.arrayOfLinkedLists[j].linkedList.get(0);				
-				
-				if(vertex == adjacentVertex) {
-					vertexPosition = j;	
-					break;
-				}
-			}
 			
-			if(this.color.get(vertexPosition) == "white") {
-				//this.pi.set(i - 1, list.linkedList.get(0));
-				dfsVisit(this.graph.arrayOfLinkedLists[vertexPosition], vertexPosition);
-			}			
+		for(int i = 1; i < list.linkedList.size(); i++) {
+			int adjVertex = list.linkedList.get(i);
+			int adjVertexPosition = this.position(adjVertex);
+			
+;			if(this.color.get(adjVertexPosition) == "white") {
+				this.pi.set(adjVertexPosition, list.linkedList.get(0));
+				this.dfsVisit(this.graph.arrayOfLinkedLists[adjVertexPosition], adjVertexPosition);
+			}
 		}
 		
-		this.color.set(node, "black");		
+		this.color.set(node, "black");
 		this.finalizationTime.set(node, this.time);
 		this.time++;
 	}
@@ -107,6 +97,21 @@ public class Dfs {
 		System.out.println("The topological sort using decreasing is:");
 		System.out.print(decreasingFinalizationTime);
 		
+	}
+	
+	public int position(int vertex) {
+		int position = 0;
+		
+		for(int i = 0; i < this.graph.totalNodes; i++) {
+			int firstLinkedListElement = this.graph.arrayOfLinkedLists[i].linkedList.get(0);
+			
+			if(firstLinkedListElement == vertex) {
+				position = i;
+				break;
+			}
+		}
+		
+		return position;
 	}
 	
 	public void showArrays() {

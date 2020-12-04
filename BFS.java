@@ -28,7 +28,7 @@ public class BFS {
 	}
 	
 	void bfs(int source) {
-		int sourcePosition = this.verifyingPosition(source);		
+		int sourcePosition = this.position(source);		
 		
 		color.set(sourcePosition, "gray");
 				
@@ -36,7 +36,7 @@ public class BFS {
 		
 		for(int i = 1; i < linkedListSize; i++) {
 			int adjacentVertex = this.graph.arrayOfLinkedLists[sourcePosition].linkedList.get(i);
-			int adjacentVertexPosition = this.verifyingPosition(adjacentVertex);
+			int adjacentVertexPosition = this.position(adjacentVertex);
 			pi.set(adjacentVertexPosition, source);
 			queue.offer(adjacentVertex);
 		}
@@ -45,13 +45,13 @@ public class BFS {
 		
 		while(queue.size() != 0) {
 			int vertex = queue.element();
-			int vertexPosition = this.verifyingPosition(vertex);
-			distance.set(vertexPosition, distance.get(this.verifyingPosition(pi.get(vertexPosition))) + 1);
+			int vertexPosition = this.position(vertex);
+			distance.set(vertexPosition, distance.get(this.position(pi.get(vertexPosition))) + 1);
 			queue.poll();
 			
 			for(int i = 1; i < this.graph.arrayOfLinkedLists[vertexPosition].linkedList.size(); i++) {
 				int adjacentVertex = this.graph.arrayOfLinkedLists[vertexPosition].linkedList.get(i);
-				int adjVertexPosition = this.verifyingPosition(adjacentVertex);
+				int adjVertexPosition = this.position(adjacentVertex);
 				
 				if(color.get(adjVertexPosition) == "white") {
 					color.set(adjVertexPosition, "gray");
@@ -72,7 +72,7 @@ public class BFS {
 		}
 	}
 	
-	public int verifyingPosition(int vertex) {
+	public int position(int vertex) {
 		int position = 0;
 		
 		for(int i = 0; i < this.graph.totalNodes; i++) {

@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class DfsTest {
+class DFSTest {
 
 	@Test
 	void dfsTest() {
-		Dfs graphDfs = new Dfs();
+		DFS graphDfs = new DFS();
 		graphDfs.dfsGraph();
 		graphDfs.showArrays();
 	}
